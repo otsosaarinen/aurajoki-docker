@@ -1,7 +1,12 @@
 import "./App.css";
+import { CountUp } from "countup.js";
 
 function App() {
-  return <></>;
+    return (
+        <>
+            <div className=""></div>
+        </>
+    );
 }
 
 export default App;
