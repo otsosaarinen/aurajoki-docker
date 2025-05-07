@@ -37,9 +37,11 @@ function App() {
     return (
         <>
             <div className="flex h-screen w-screen flex-col items-center justify-center gap-10 bg-blue-400 text-neutral-800">
-                <h1 className="text-4xl">Aurajoen virtaus tänään:</h1>
+                <h1 className="text-4xl">
+                    Aurajoen virranneen veden määrä tänään:
+                </h1>
                 <h2 className="text-8xl font-bold">
-                    <span id="waterFlow"></span> m<sup>3</sup>/s
+                    <span id="waterFlow"></span> m<sup>3</sup>
                 </h2>
             </div>
         </>
