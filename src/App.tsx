@@ -20,7 +20,10 @@ function App() {
         const initialWaterFlow = totalSecondsToday * waterFlowRate;
         currentValueRef.current = initialWaterFlow;
 
-        countUpRef.current = new CountUp("waterFlow", initialWaterFlow);
+        countUpRef.current = new CountUp("waterFlow", initialWaterFlow, {
+            duration: 0.75,
+            separator: " ",
+        });
         countUpRef.current.start();
 
         const update = setInterval(() => {
@@ -38,7 +41,7 @@ function App() {
         <>
             <div className="flex h-screen w-screen flex-col items-center justify-center gap-10 bg-blue-400 text-neutral-800">
                 <h1 className="text-4xl">
-                    Aurajoen virranneen veden määrä tänään:
+                    Aurajoessa virranneen veden määrä tänään:
                 </h1>
                 <h2 className="text-8xl font-bold">
                     <span id="waterFlow"></span> m<sup>3</sup>
