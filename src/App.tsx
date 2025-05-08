@@ -3,38 +3,40 @@ import { useRef, useEffect } from "react";
 import { CountUp } from "countup.js";
 
 function App() {
-    const countUpRef = useRef<CountUp | null>(null);
-    const currentValueRef = useRef<number>(0);
+    const waterFlowRate: number = 7;
 
     useEffect(() => {
-        const waterFlowRate: number = 7;
+        const epoch: number = Math.round(Date.now() / 1000);
+        const epoch2025: number = Math.round(
+            new Date(2025, 0, 1).getTime() / 1000,
+        );
+        const time: Date = new Date();
 
-        const now: Date = new Date();
-        const hours: number = now.getHours();
-        const minutes: number = now.getMinutes();
-        const seconds: number = now.getSeconds();
+        const months = time.getMonth() + 1;
+        const days = time.getDate();
+        const hours = time.getHours();
+        const minutes = time.getMinutes();
+        const seconds = time.getSeconds();
 
-        const totalSecondsToday: number =
-            hours * 60 * 60 + minutes * 60 + seconds;
+        const secondsToday = hours * 60 * 60 + minutes * 60 + seconds;
+        const secondsMonth = days * 24 * 60 * 60 + secondsToday;
 
-        const initialWaterFlow = totalSecondsToday * waterFlowRate;
-        currentValueRef.current = initialWaterFlow;
+        console.log(secondsToday);
+        console.log(secondsMonth);
 
-        countUpRef.current = new CountUp("waterFlow", initialWaterFlow, {
+        const countUpYear = new CountUp("waterFlowYear");
+        const countUpMonth = new CountUp("waterFlowMonth", secondsMonth, {
             duration: 0.75,
             separator: " ",
         });
-        countUpRef.current.start();
+        const countUpDay = new CountUp("waterFlowDay", secondsToday, {
+            duration: 0.75,
+            separator: " ",
+        });
 
-        const update = setInterval(() => {
-            currentValueRef.current += waterFlowRate;
-
-            if (countUpRef.current) {
-                countUpRef.current.update(currentValueRef.current);
-            }
-        }, 1000);
-
-        return () => clearInterval(update);
+        countUpYear.start();
+        countUpMonth.start();
+        countUpDay.start();
     }, []);
 
     return (
@@ -48,19 +50,19 @@ function App() {
                         <div>
                             <p className="italic">Tänä vuonna</p>
                             <div className="text-4xl font-medium">
-                                <span id="">0</span> m<sup>3</sup>
+                                <span id="waterFlowYear">0</span> m<sup>3</sup>
                             </div>
                         </div>
                         <div>
                             <p className="italic">Tässä kuussa</p>
                             <div className="text-4xl font-medium">
-                                <span id="">0</span> m<sup>3</sup>
+                                <span id="waterFlowMonth">0</span> m<sup>3</sup>
                             </div>
                         </div>
                         <div>
                             <p className="italic">Tänään</p>
                             <div className="text-4xl font-medium">
-                                <span id="waterFlow">0</span> m<sup>3</sup>
+                                <span id="waterFlowDay">0</span> m<sup>3</sup>
                             </div>
                         </div>
                     </div>
