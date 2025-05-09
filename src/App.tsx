@@ -23,8 +23,7 @@ function App() {
         // current timestamp
         const time: Date = new Date();
 
-        // create date variables // add + 1 to months because indexing starts from 0
-        const months = time.getMonth() + 1;
+        // create date variables
         const days = time.getDate();
         const hours = time.getHours();
         const minutes = time.getMinutes();
