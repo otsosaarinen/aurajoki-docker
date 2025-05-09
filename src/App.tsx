@@ -5,15 +5,21 @@ import { CountUp } from "countup.js";
 function App() {
     const waterFlowRate: number = 7;
 
+    const countUpYearRef = useRef<CountUp | null>(null);
+    const countUpMonthRef = useRef<CountUp | null>(null);
+    const countUpDayRef = useRef<CountUp | null>(null);
+
+    const yearCounter = useRef(0);
+    const monthCounter = useRef(0);
+    const dayCounter = useRef(0);
+
     useEffect(() => {
         // seconds since 1970 january 1st
         const epoch: number = Math.round(Date.now() / 1000);
-
         // seconds since 2025 january 1st
         const jan2025epoch: number = Math.round(
             new Date(2025, 0).getTime() / 1000,
         );
-
         // current timestamp
         const time: Date = new Date();
 
@@ -29,24 +35,54 @@ function App() {
         const secondsMonth = days * 24 * 60 * 60 + secondsToday;
         const secondsYear = epoch - jan2025epoch;
 
-        // create countUp variables
-        const countUpYear = new CountUp("waterFlowYear", secondsYear, {
-            duration: 0.75,
-            separator: " ",
-        });
-        const countUpMonth = new CountUp("waterFlowMonth", secondsMonth, {
-            duration: 0.75,
-            separator: " ",
-        });
-        const countUpDay = new CountUp("waterFlowDay", secondsToday, {
-            duration: 0.75,
-            separator: " ",
-        });
+        // initialize counters
+        yearCounter.current = secondsYear * waterFlowRate;
+        monthCounter.current = secondsMonth * waterFlowRate;
+        dayCounter.current = secondsToday * waterFlowRate;
 
-        // initialize countUps
-        countUpYear.start();
-        countUpMonth.start();
-        countUpDay.start();
+        // create countUp instances
+        countUpYearRef.current = new CountUp(
+            "waterFlowYear",
+            yearCounter.current,
+            {
+                duration: 0.75,
+                separator: " ",
+            },
+        );
+        countUpMonthRef.current = new CountUp(
+            "waterFlowMonth",
+            monthCounter.current,
+            {
+                duration: 0.75,
+                separator: " ",
+            },
+        );
+        countUpDayRef.current = new CountUp(
+            "waterFlowDay",
+            dayCounter.current,
+            {
+                duration: 0.75,
+                separator: " ",
+            },
+        );
+
+        // start counters
+        countUpYearRef.current.start();
+        countUpMonthRef.current.start();
+        countUpDayRef.current.start();
+
+        // update counters every second
+        const interval = setInterval(() => {
+            yearCounter.current += waterFlowRate;
+            monthCounter.current += waterFlowRate;
+            dayCounter.current += waterFlowRate;
+
+            countUpYearRef.current?.update(yearCounter.current);
+            countUpMonthRef.current?.update(monthCounter.current);
+            countUpDayRef.current?.update(dayCounter.current);
+        }, 1000);
+
+        return () => clearInterval(interval);
     }, []);
 
     return (
