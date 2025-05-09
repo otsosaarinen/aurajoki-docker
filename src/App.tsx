@@ -44,7 +44,7 @@ function App() {
             "waterFlowYear",
             yearCounter.current,
             {
-                duration: 0.75,
+                duration: 0.9,
                 separator: " ",
             },
         );
@@ -52,7 +52,7 @@ function App() {
             "waterFlowMonth",
             monthCounter.current,
             {
-                duration: 0.75,
+                duration: 0.9,
                 separator: " ",
             },
         );
@@ -60,7 +60,7 @@ function App() {
             "waterFlowDay",
             dayCounter.current,
             {
-                duration: 0.75,
+                duration: 0.9,
                 separator: " ",
             },
         );
