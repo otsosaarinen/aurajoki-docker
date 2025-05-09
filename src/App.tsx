@@ -6,10 +6,15 @@ function App() {
     const waterFlowRate: number = 7;
 
     useEffect(() => {
+        // seconds since 1970 january 1st
         const epoch: number = Math.round(Date.now() / 1000);
-        const epoch2025: number = Math.round(
-            new Date(2025, 0, 1).getTime() / 1000,
+
+        // seconds since 2025 january 1st
+        const jan2025epoch: number = Math.round(
+            new Date(2025, 0).getTime() / 1000,
         );
+
+        // current timestamp
         const time: Date = new Date();
 
         const months = time.getMonth() + 1;
@@ -20,11 +25,12 @@ function App() {
 
         const secondsToday = hours * 60 * 60 + minutes * 60 + seconds;
         const secondsMonth = days * 24 * 60 * 60 + secondsToday;
+        const secondsYear = epoch - jan2025epoch;
 
-        console.log(secondsToday);
-        console.log(secondsMonth);
-
-        const countUpYear = new CountUp("waterFlowYear");
+        const countUpYear = new CountUp("waterFlowYear", secondsYear, {
+            duration: 0.75,
+            separator: " ",
+        });
         const countUpMonth = new CountUp("waterFlowMonth", secondsMonth, {
             duration: 0.75,
             separator: " ",
@@ -42,28 +48,27 @@ function App() {
     return (
         <>
             <div className="flex h-screen w-screen items-center justify-center text-neutral-800">
-                <div className="flex flex-col gap-5 rounded-md bg-neutral-200 p-2">
+                <div className="flex flex-col gap-3 rounded-md bg-neutral-200 p-3">
                     <h1 className="text-4xl">
                         Aurajoessa virranneen veden määrä
                     </h1>
-                    <div className="flex flex-col gap-3">
-                        <div>
-                            <p className="italic">Tänä vuonna</p>
-                            <div className="text-4xl font-medium">
-                                <span id="waterFlowYear">0</span> m<sup>3</sup>
-                            </div>
+
+                    <div>
+                        <p className="italic">Tänä vuonna</p>
+                        <div className="text-4xl font-medium">
+                            <span id="waterFlowYear">0</span> m<sup>3</sup>
                         </div>
-                        <div>
-                            <p className="italic">Tässä kuussa</p>
-                            <div className="text-4xl font-medium">
-                                <span id="waterFlowMonth">0</span> m<sup>3</sup>
-                            </div>
+                    </div>
+                    <div>
+                        <p className="italic">Tässä kuussa</p>
+                        <div className="text-4xl font-medium">
+                            <span id="waterFlowMonth">0</span> m<sup>3</sup>
                         </div>
-                        <div>
-                            <p className="italic">Tänään</p>
-                            <div className="text-4xl font-medium">
-                                <span id="waterFlowDay">0</span> m<sup>3</sup>
-                            </div>
+                    </div>
+                    <div>
+                        <p className="italic">Tänään</p>
+                        <div className="text-4xl font-medium">
+                            <span id="waterFlowDay">0</span> m<sup>3</sup>
                         </div>
                     </div>
                 </div>
