@@ -17,16 +17,19 @@ function App() {
         // current timestamp
         const time: Date = new Date();
 
+        // create date variables // add + 1 to months because indexing starts from 0
         const months = time.getMonth() + 1;
         const days = time.getDate();
         const hours = time.getHours();
         const minutes = time.getMinutes();
         const seconds = time.getSeconds();
 
+        // calculate amount of seconds
         const secondsToday = hours * 60 * 60 + minutes * 60 + seconds;
         const secondsMonth = days * 24 * 60 * 60 + secondsToday;
         const secondsYear = epoch - jan2025epoch;
 
+        // create countUp variables
         const countUpYear = new CountUp("waterFlowYear", secondsYear, {
             duration: 0.75,
             separator: " ",
@@ -40,6 +43,7 @@ function App() {
             separator: " ",
         });
 
+        // initialize countUps
         countUpYear.start();
         countUpMonth.start();
         countUpDay.start();
